@@ -79,7 +79,7 @@ pub fn draw(greeter: &mut Greeter, f: &mut Frame<TermionBackend<RawTerminal<io::
       let answer_text = if greeter.working { Span::from(WORKING) } else { prompt_value(&greeter.prompt) };
       let answer_label = Paragraph::new(answer_text);
 
-      if greeter.mode == Mode::Password || greeter.previous_mode == Mode::Password {
+      if greeter.mode == Mode::Password {
         f.render_widget(answer_label, chunks[ANSWER_INDEX]);
 
         if !greeter.secret || greeter.asterisks {

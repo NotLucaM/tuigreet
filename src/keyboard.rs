@@ -13,7 +13,7 @@ pub fn handle(greeter: &mut Greeter, events: &Events) -> Result<(), Box<dyn Erro
   if let Event::Input(input) = events.next()? {
     match input {
       Key::Esc => match greeter.mode {
-        Mode::Command | Mode::Sessions => greeter.mode = greeter.previous_mode,
+        Mode::Command | Mode::Sessions => greeter.mode = Mode::default(),
 
         _ => {
           delete_last_username();
@@ -27,12 +27,10 @@ pub fn handle(greeter: &mut Greeter, events: &Events) -> Result<(), Box<dyn Erro
 
       Key::F(2) => {
         greeter.new_command = greeter.command.clone().unwrap_or_default();
-        greeter.previous_mode = greeter.mode;
         greeter.mode = Mode::Command;
       }
 
       Key::F(3) => {
-        greeter.previous_mode = greeter.mode;
         greeter.mode = Mode::Sessions;
       }
 
@@ -85,7 +83,7 @@ pub fn handle(greeter: &mut Greeter, events: &Events) -> Result<(), Box<dyn Erro
         Mode::Command => {
           greeter.command = Some(greeter.new_command.clone());
           greeter.selected_session = greeter.sessions.iter().position(|(_, command)| Some(command) == greeter.command.as_ref()).unwrap_or(0);
-          greeter.mode = greeter.previous_mode;
+          greeter.mode = Mode::default();
         }
 
         Mode::Sessions => {
@@ -93,7 +91,7 @@ pub fn handle(greeter: &mut Greeter, events: &Events) -> Result<(), Box<dyn Erro
             greeter.command = Some(command.clone());
           }
 
-          greeter.mode = greeter.previous_mode;
+          greeter.mode = Mode::default();
         }
       },
 

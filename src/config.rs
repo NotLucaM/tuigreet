@@ -48,7 +48,6 @@ pub struct Greeter {
   pub request: Option<Request>,
 
   pub mode: Mode,
-  pub previous_mode: Mode,
   pub cursor_offset: i16,
 
   pub command: Option<String>,
